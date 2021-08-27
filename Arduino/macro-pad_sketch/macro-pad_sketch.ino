@@ -1,9 +1,10 @@
-// #include "DigiKeyboard.h"
 #include "TrinketHidCombo.h"
+// TrinketHIDCombo functions and Key names
+// https://github.com/adafruit/Adafruit-Trinket-USB/blob/master/TrinketHidCombo/TrinketHidCombo.h
 
 
-#define BTN1 1
-#define BTN2 5
+#define BTN2 1
+#define BTN1 5
 
 #define ENC_DT 0
 #define ENC_CLK 2
@@ -17,23 +18,21 @@ void setup() {
   pinMode(BTN2, INPUT);
 
   // Rotary Encoder
-  // pinMode(ENC_SW, INPUT);
   pinMode(ENC_DT, INPUT);
   pinMode(ENC_CLK, INPUT);
 
   lastStateClk = digitalRead(ENC_CLK);
 
-  // Trinket 
+  // Trinket HID Init
   TrinketHidCombo.begin();
 }
 // the loop routine runs over and over again forever:
 void loop() {
-  int btn1State = digitalRead(BTN1);
-  int btn2State = analogRead(BTN2);
+  int btn1State = analogRead(BTN1);
+  int btn2State = digitalRead(BTN2);
 
-  if(btn1State == HIGH){
-    // DigiKeyboard.println("Button 1 Pressed");
-    TrinketHidCombo.println("Button 1 Pressed");
+  if(btn2State == HIGH){
+    TrinketHidCombo.println("Button 2 Pressed");
   }
 
 
@@ -42,8 +41,7 @@ void loop() {
   // Then analog read if the value is under a certain threshold to see if its pressed
   // https://forum.arduino.cc/t/useless-pin-5-in-all-digispark-attiny85-boards-solved/655868/10
   if(analogRead(A0) < 800){
-    // DigiKeyboard.println("Button 3 Pressed");
-    TrinketHidCombo.println("Button 2 Pressed");
+    TrinketHidCombo.println("Button 1 Pressed");
   }
 
   encodeVolume();
@@ -52,19 +50,16 @@ void loop() {
 
 void encodeVolume(){
   int currentStateClk = digitalRead(ENC_CLK);
-  // int btnState = digitalRead(ENC_SW);
 
   if(currentStateClk != lastStateClk && currentStateClk == 1){
     if(digitalRead(ENC_DT) != currentStateClk){
-      // Rotating Counter clock wise
-      // Decrease volume
-      TrinketHidCombo.pressMultimediaKey(MMKEY_VOL_UP);
-      // DigiKeyboard.println("Decrease Volume");
-    } else {
       // Rotating Clock wise
       // Increase volume
+      TrinketHidCombo.pressMultimediaKey(MMKEY_VOL_UP);
+    } else {
+      // Rotating Counter clock wise
+      // Decrease volume
       TrinketHidCombo.pressMultimediaKey(MMKEY_VOL_DOWN);
-      // DigiKeyboard.println("Increase Volume");
     }
   }
 
