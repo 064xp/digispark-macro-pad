@@ -2,7 +2,6 @@
 // TrinketHIDCombo functions and Key names
 // https://github.com/adafruit/Adafruit-Trinket-USB/blob/master/TrinketHidCombo/TrinketHidCombo.h
 
-
 #define BTN2 1
 #define BTN1 5
 
@@ -11,8 +10,17 @@
 
 int lastStateClk;
 
-void setup() {                
+// ===== Button 1 on click =====
+void onBtn1Click(){
+  TrinketHidCombo.println("Button 1 Pressed");
+}
 
+// ===== Button 2 on click =====
+void onBtn2Click(){
+  TrinketHidCombo.println("Button 2 Pressed");
+}
+
+void setup() {                
   // Buttons
   pinMode(BTN1, INPUT);
   pinMode(BTN2, INPUT);
@@ -32,7 +40,7 @@ void loop() {
   int btn2State = digitalRead(BTN2);
 
   if(btn2State == HIGH){
-    TrinketHidCombo.println("Button 2 Pressed");
+    onBtn2Click();
   }
 
 
@@ -41,7 +49,7 @@ void loop() {
   // Then analog read if the value is under a certain threshold to see if its pressed
   // https://forum.arduino.cc/t/useless-pin-5-in-all-digispark-attiny85-boards-solved/655868/10
   if(analogRead(A0) < 800){
-    TrinketHidCombo.println("Button 1 Pressed");
+    onBtn1Click();
   }
 
   encodeVolume();
@@ -64,4 +72,17 @@ void encodeVolume(){
   }
 
   lastStateClk = currentStateClk;
+}
+
+/*
+  Sleep for a certain amount of miliseconds
+  Poll every ms to sustain USB connection
+*/
+void pollWait(int time){
+  int counter;
+  for(counter = 0; counter<time; counter++){
+    delay(1);
+    counter++;
+    TrinketHidCombo.poll();
+  }
 }
