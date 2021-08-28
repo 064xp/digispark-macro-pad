@@ -11,14 +11,20 @@
 int lastStateClk;
 
 // ===== Button 1 on click =====
-void onBtn1Click(){
+void onBtn1Press(){
   TrinketHidCombo.println("Button 1 Pressed");
 }
 
 // ===== Button 2 on click =====
-void onBtn2Click(){
+void onBtn2Press(){
   TrinketHidCombo.println("Button 2 Pressed");
 }
+
+// ===== Both buttons pressed at same time =====
+void onBothPress(){
+  TrinketHidCombo.println("Both buttons pressed");
+}
+
 
 void setup() {                
   // Buttons
@@ -38,22 +44,31 @@ void setup() {
 void loop() {
   int btn1State = analogRead(BTN1);
   int btn2State = digitalRead(BTN2);
-
-  if(btn2State == HIGH){
-    onBtn2Click();
-  }
-
+  bool btn1Pressed = false;
+  bool btn2Pressed = false;
 
   // Pin 5 (A0) is reset pin, to use it as GPIO
   // Place a resistor between push button and GND so that voltage never goes to 5v
   // Then analog read if the value is under a certain threshold to see if its pressed
   // https://forum.arduino.cc/t/useless-pin-5-in-all-digispark-attiny85-boards-solved/655868/10
   if(analogRead(A0) < 800){
-    onBtn1Click();
+    btn1Pressed = true;
+  }
+
+  if(btn2State == HIGH){
+    btn2Pressed = true;
+  }
+
+  if(btn1Pressed && btn2Pressed){
+    onBothPress();
+  } else if(btn1Pressed){
+    onBtn1Press();
+  } else if(btn2Pressed){
+    onBtn2Press();
   }
 
   encodeVolume();
-  TrinketHidCombo.poll(); 
+  pollWait(80);
 }
 
 void encodeVolume(){
