@@ -1,20 +1,36 @@
 #include "Button.h"
 #include "TrinketHidCombo.h"
 
-Button::Button(bool analog, int btnPin, unsigned long doublePressTime){
-    isAnalog = analog;
-    pin = btnPin;
-    btnState = idle;
-    doublePressDuration = doublePressTime;
-    lastKeyUp = 0;
+Button::Button(
+    bool analog,
+    int btnPin, 
+    unsigned long doublePressTime,
+    unsigned long longPressTime,
+    void (*onPress) (void),
+    void (*onDoublePress) (void),
+    void (*onLongPress) (void)
+){
+    this->isAnalog = analog;
+    this->pin = btnPin;
+    this->btnState = idle;
+    this->doublePressDuration = doublePressTime;
+    this->longPressDuration = longPressTime;
+    this->lastKeyUp = 0;
+
+    this->onPress = onPress;
+    this->onDoublePress = onDoublePress;
+    this->onLongPress = onLongPress;
 }
 
 void Button::update(){
-    if(btnState > 1)
-        btnState = idle;
-
+    // If double press timeout has expired, and the button was pressed
+    // Check if it was a long or short press
     if(btnState == pressPending && millis() - lastKeyUp > doublePressDuration){
-        btnState = pressed;
+        if(lastKeyUp - lastKeyDown < longPressDuration)
+            onPress();
+        else 
+            onLongPress();
+        btnState = idle;
     }
     
     isPressed = checkButtonPressed();
@@ -28,15 +44,17 @@ void Button::update(){
 }
 
 void Button::onKeyDown(){
-    // Not needed at the moment
+    lastKeyDown = millis();
 }
 
 void Button::onKeyUp(){
     btnState = pressPending;
+    // Double press
     if(millis() - lastKeyUp < doublePressDuration){
-        btnState = doublePressed;
-        lastKeyUp = 0;
-        return;
+        // lastKeyUp = 0;
+        btnState = idle;
+        onDoublePress();
+        // return;
     } 
 
     lastKeyUp = millis();

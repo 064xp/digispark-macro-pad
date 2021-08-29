@@ -10,11 +10,28 @@
 
 // Time in between button presses to consider it a double press
 #define PRESS_TIMER 230
+#define LONG_PRESS_TIMER 650
 
 int lastStateClk;
-Button btn1(true, BTN1, PRESS_TIMER);
-Button btn2(false, BTN2, PRESS_TIMER);
+Button btn1(
+  true, 
+  BTN1, 
+  PRESS_TIMER,
+  LONG_PRESS_TIMER,
+  onBtn1Press,
+  onBtn1DoublePress,
+  onBtn1LongPress 
+);
 
+Button btn2(
+  false, 
+  BTN2, 
+  PRESS_TIMER,
+  LONG_PRESS_TIMER,
+  onBtn2Press,
+  onBtn2DoublePress,
+  onBtn2LongPress 
+);
 
 void setup() {                
   // Buttons
@@ -33,30 +50,13 @@ void setup() {
 void loop() {
   btn1.update();
   btn2.update();
-  handleButtonGestures();
   encodeVolume();
-  pollWait(70);
-}
-
-void handleButtonGestures(){
-  // === Call gesture handlers === 
-  if(btn1.btnState == pressed && btn2.btnState == pressed){
-    onBothPress();
-  } else if(btn1.btnState == doublePressed){
-    onBtn1DoublePress();
-  } else if(btn2.btnState == doublePressed) {
-    onBtn2DoublePress();
-  } else if(btn1.btnState == pressed){
-    onBtn1Press();
-  } else if(btn2.btnState == pressed){
-    onBtn2Press();
-  }
 }
 
 void encodeVolume(){
   int currentStateClk = digitalRead(ENC_CLK);
 
-  if(currentStateClk != lastStateClk && currentStateClk == 1){
+  if(currentStateClk != lastStateClk){
     if(digitalRead(ENC_DT) != currentStateClk){
       // Rotating Clock wise
       onKnobCW();

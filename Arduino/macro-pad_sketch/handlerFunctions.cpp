@@ -5,19 +5,24 @@
 ======================================================
 */
 
-// ===== Button 1 on click =====
+// ===== Button 1 on press =====
 void onBtn1Press(){
   TrinketHidCombo.println("Button 1 Pressed");
 }
 
-// ===== Button 2 on click =====
+// ===== Button 1 on long press =====
+void onBtn1LongPress(){
+  TrinketHidCombo.println("Button 1 long press");
+}
+
+// ===== Button 2 on press =====
 void onBtn2Press(){
   TrinketHidCombo.println("Button 2 Pressed");
 }
 
-// ===== Both buttons pressed at same time =====
-void onBothPress(){
-  TrinketHidCombo.println("Both buttons pressed");
+// ===== Button 2 on long press =====
+void onBtn2LongPress(){
+  TrinketHidCombo.println("Button 2 long press");
 }
 
 // ===== Button 1 double press =====

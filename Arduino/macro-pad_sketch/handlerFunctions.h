@@ -6,8 +6,9 @@
 // https://github.com/adafruit/Adafruit-Trinket-USB/blob/master/TrinketHidCombo/TrinketHidCombo.h
 
 void onBtn1Press();
+void onBtn1LongPress();
 void onBtn2Press();
-void onBothPress();
+void onBtn2LongPress();
 void onBtn1DoublePress();
 void onBtn2DoublePress();
 void onKnobCW();
