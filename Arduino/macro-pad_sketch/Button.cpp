@@ -51,10 +51,8 @@ void Button::onKeyUp(){
     btnState = pressPending;
     // Double press
     if(millis() - lastKeyUp < doublePressDuration){
-        // lastKeyUp = 0;
         btnState = idle;
         onDoublePress();
-        // return;
     } 
 
     lastKeyUp = millis();
