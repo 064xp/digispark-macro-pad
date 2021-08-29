@@ -68,16 +68,3 @@ void encodeVolume(){
 
   lastStateClk = currentStateClk;
 }
-
-/*
-  Sleep for a certain amount of milliseconds
-  Poll every ms to sustain USB connection
-*/
-void pollWait(int time){
-  int counter;
-  for(counter = 0; counter<time; counter++){
-    delay(1);
-    counter++;
-    TrinketHidCombo.poll();
-  }
-}

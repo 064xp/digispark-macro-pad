@@ -1,4 +1,6 @@
 #include "handlerFunctions.h"
+#include "Arduino.h"
+
 /*
 ======================================================
     Modify this file for editing handler functions
@@ -44,4 +46,20 @@ void onKnobCW(){
 // ===== Knob turn counter clock wise =====
 void onKnobCCW(){
     TrinketHidCombo.pressMultimediaKey(MMKEY_VOL_DOWN);
+}
+
+
+// ==== Helper functions ====
+
+/*
+  Sleep for a certain amount of milliseconds
+  Poll every ms to sustain USB connection
+*/
+void pollWait(int time){
+  int counter;
+  for(counter = 0; counter<time; counter++){
+    delay(1);
+    counter++;
+    TrinketHidCombo.poll();
+  }
 }

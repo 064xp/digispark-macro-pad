@@ -13,5 +13,6 @@ void onBtn1DoublePress();
 void onBtn2DoublePress();
 void onKnobCW();
 void onKnobCCW();
+void pollWait(int time);
 
 #endif
