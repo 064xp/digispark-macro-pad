@@ -35,4 +35,4 @@ The available gestures are:
 - Rotary encoder clockwise
 - Rotary encoder counter clockwise
 
-To edit the behaviour of these, edit the [hanlderFunctions.cpp](https://github.com/064xp/digispark-macro-pad/blob/main/Arduino/macro-pad_sketch/handlerFunctions.cpp) file.
+To edit the behaviour of these, edit the [handlerFunctions.cpp](https://github.com/064xp/digispark-macro-pad/blob/main/Arduino/macro-pad_sketch/handlerFunctions.cpp) file.
