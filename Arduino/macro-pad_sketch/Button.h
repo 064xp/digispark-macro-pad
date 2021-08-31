@@ -2,14 +2,15 @@
 #define BUTTON_H
 #include "Arduino.h"
 
-enum btnStates {idle, pressPending, pressed, doublePressed};
+#define DOUBLE_PRESS_TIME 230
+#define LONG_PRESS_TIME 650
+
+enum btnStates {idle, pressPending};
 
 class Button{
     private:
         unsigned long lastKeyUp;
         unsigned long lastKeyDown;
-        unsigned long doublePressDuration;
-        unsigned long longPressDuration;
         bool isAnalog;
         bool isPressed;
         char pin;
@@ -24,9 +25,7 @@ class Button{
     public:
         Button(
             bool analog, 
-            int btnPin, 
-            unsigned long doublePressTime,
-            unsigned long longPressTime,
+            char btnPin,
             void (*onPress) (void),
             void (*onDoublePress) (void),
             void (*onLongPress) (void)

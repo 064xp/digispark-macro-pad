@@ -8,16 +8,10 @@
 #define ENC_DT 0
 #define ENC_CLK 2
 
-// Time in between button presses to consider it a double press
-#define PRESS_TIMER 230
-#define LONG_PRESS_TIMER 650
-
-int lastStateClk;
+char lastStateClk;
 Button btn1(
   true, 
-  BTN1, 
-  PRESS_TIMER,
-  LONG_PRESS_TIMER,
+  BTN1,
   onBtn1Press,
   onBtn1DoublePress,
   onBtn1LongPress 
@@ -25,9 +19,7 @@ Button btn1(
 
 Button btn2(
   false, 
-  BTN2, 
-  PRESS_TIMER,
-  LONG_PRESS_TIMER,
+  BTN2,
   onBtn2Press,
   onBtn2DoublePress,
   onBtn2LongPress 
@@ -55,10 +47,11 @@ void loop() {
 }
 
 void encodeVolume(){
-  int currentStateClk = digitalRead(ENC_CLK);
+  char currentStateClk = digitalRead(ENC_CLK);
+  char currentDT = digitalRead(ENC_DT);
 
   if(currentStateClk != lastStateClk){
-    if(digitalRead(ENC_DT) != currentStateClk){
+    if(currentDT != currentStateClk){
       // Rotating Clock wise
       onKnobCW();
     } else {

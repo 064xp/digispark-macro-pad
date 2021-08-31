@@ -3,9 +3,7 @@
 
 Button::Button(
     bool analog,
-    int btnPin, 
-    unsigned long doublePressTime,
-    unsigned long longPressTime,
+    char btnPin, 
     void (*onPress) (void),
     void (*onDoublePress) (void),
     void (*onLongPress) (void)
@@ -13,8 +11,6 @@ Button::Button(
     this->isAnalog = analog;
     this->pin = btnPin;
     this->btnState = idle;
-    this->doublePressDuration = doublePressTime;
-    this->longPressDuration = longPressTime;
     this->lastKeyUp = 0;
 
     this->onPress = onPress;
@@ -25,8 +21,8 @@ Button::Button(
 void Button::update(){
     // If double press timeout has expired, and the button was pressed
     // Check if it was a long or short press
-    if(btnState == pressPending && millis() - lastKeyUp > doublePressDuration){
-        if(lastKeyUp - lastKeyDown < longPressDuration)
+    if(btnState == pressPending && millis() - lastKeyUp > DOUBLE_PRESS_TIME){
+        if(lastKeyUp - lastKeyDown < LONG_PRESS_TIME)
             onPress();
         else 
             onLongPress();
@@ -50,7 +46,7 @@ void Button::onKeyDown(){
 void Button::onKeyUp(){
     btnState = pressPending;
     // Double press
-    if(millis() - lastKeyUp < doublePressDuration){
+    if(millis() - lastKeyUp < DOUBLE_PRESS_TIME){
         btnState = idle;
         onDoublePress();
     } 
