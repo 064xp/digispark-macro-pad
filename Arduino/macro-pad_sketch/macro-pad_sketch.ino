@@ -51,6 +51,7 @@ void loop() {
   btn1.update();
   btn2.update();
   encodeVolume();
+  TrinketHidCombo.poll();
 }
 
 void encodeVolume(){
